@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>听音乐</title>
+		<link rel="stylesheet" href="svg/font.css" />
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			#box {
+				width: 960px;
+				height: 600px;
+				background: url(img/bj.jpg);
+				margin: 0 auto;
+				overflow: hidden;
+			}
+			
+			#music {
+				width: 298px;
+				height: 328px;
+				border: 1px solid black;
+				margin: 0 auto;
+				margin-top: 150px;
+				overflow: hidden;
+				position: relative;
+			}
+			
+			#music img {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+			}
+			
+			#loadLine {
+				margin-top: 195px;
+				width: 100%;
+				height: 10px;
+				background: #000;
+				overflow: hidden;
+				position: relative;
+				z-index: 5;
+			}
+			
+			#line {
+				float: left;
+				width: 0%;
+				height: 100%;
+				background: red;
+			}
+			
+			#div {
+				width: 298px;
+				height: 125px;
+				position: relative;
+				z-index: 9;
+				background: rgba(0, 0, 0, 0.8);
+			}
+			
+			#music p {
+				width: 100%;
+				text-align: center;
+			}
+			
+			.txt {
+				color: #fff;
+				font-weight: bold;
+				font-size: 18px;
+			}
+			
+			.txt1 {
+				color: silver;
+				font-size: 12px;
+			}
+			
+			#music i {
+				display: inline-block;
+				cursor: pointer;
+			}
+			
+			.rom {
+				width: 20px;
+				height: 20px;
+				color: #666;
+				position: absolute;
+				bottom: 30px;
+				left: 15px;
+			}
+			
+			span {
+				display: inline-block;
+				width: 100px;
+				height: 43px;
+				background: url(img/3.png) no-repeat;
+				margin: 25px 0 0 95px;
+				position: relative;
+			}
+			
+			#left {
+				color: #FFFFFF;
+				position: absolute;
+				top: 13px;
+				left: 7px;
+			}
+			
+			#dot {
+				position: absolute;
+				top: 10px;
+				left: 35px;
+				color: #FFFFFF;
+				font-size: 24px;
+			}
+			
+			#right {
+				position: absolute;
+				top: 13px;
+				left: 72px;
+				color: #FFFFFF;
+			}
+			
+			#seng1 {
+				position: absolute;
+				bottom: 23px;
+				right: 20px;
+				width: 35px;
+				height: 35px;
+				background: url(img/yingpin.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			#yin {
+				width: 12px;
+				height: 100px;
+				z-index: 10;
+				background: #292926;
+				position: relative;
+				top: -140px;
+				right: -255px;
+				display: none;
+			}
+			
+			#yin_heigh {
+				float: left;
+				width: 100%;
+				height: 50%;
+				position: absolute;
+				bottom: 0;
+				background: white;
+			}
+			
+			#yin_kuan {
+				float: left;
+				width: 18px;
+				height: 5px;
+				cursor: pointer;
+				position: absolute;
+				left: -3px;
+				top: 50%;
+				background: wheat;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="box">
+			<div id="music">
+				<img src="img/6.jpg" / id="img">
+				<audio id="audio" src="1.mp3">
+				</audio>
+				<div id='loadLine'>
+					<div id='line'></div>
+				</div>
+				<div id="div">
+					<p class="txt" id="txt">小沈阳</p>
+					<p class="txt1">James Homer - The Amazing Spider-Man</p>
+					<i class="icon-shuffle rom"></i>
+					<span>
+						   <i class="icon-first" id="left"></i>
+						   <i class="icon-play2" id="dot"></i>
+						   <i class="icon-last" id="right"></i>						   
+						</span>
+					<i id="seng1"></i>
+					<div id="yin">
+						<div id="yin_heigh"></div>
+						<div id="yin_kuan"></div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</body>
+	<script>
+		var arr1 = ['1.mp3', '2.mp3', '3.mp3'];
+		var arr2 = ['img/6.jpg', 'img/5.jpg', 'img/7.jpg']
+		var arr3 = ['小沈阳', '安旭', '韩安旭']
+		var index = 0;
+		var a = 1;
+		var vid = false;
+		audio.volume = 0.5
+		audio.addEventListener('timeupdate', function() {
+			line.style.width = (audio.currentTime / audio.duration * 100) + '%';
+		}, false);
+		dot.onclick = function() {
+			a += 1
+			if(a % 2 == 1) {
+				audio.pause()
+				dot.className = 'icon-play2'
+			} else {
+				audio.play()
+				dot.className = 'icon-pause'
+			}
+		}
+		left.onclick = function() {
+			index--
+			line.style.width = 0
+			if(index == -1) {
+				index = arr1.length - 1
+			}
+			audio.src = arr1[index % 3]
+			img.src = arr2[index % 3]
+			txt.innerHTML = arr3[index % 3]
+			if(a % 2 == 0) {
+				audio.play()
+				dot.className = 'icon-pause'
+			};
+		}
+		right.onclick = function() {
+			index++
+			line.style.width = 0
+			if(index == arr1.length) {
+				index = 0
+			}
+			audio.src = arr1[index % 3]
+            txt.innerHTML = arr3[index % 3]
+			img.src = arr2[index % 3]
+			if(a % 2 == 0) {
+				audio.play()
+				dot.className = 'icon-pause'
+			};
+		};
+		var c = true;
+		seng1.onclick = function() {
+			if(c) {
+				yin.style.display = "block"
+				c = false
+			} else {
+				yin.style.display = "none"
+				c = true;
+			}
+		}
+
+		yin_kuan.onmousedown = function(e) {
+			//alert(1)
+			var ev = e || event;
+			var t = ev.clientY - this.offsetTop;
+			//vid = true;
+			document.onmousemove = function(e) {
+				var ev = e || event;
+				var needT = ev.clientY - t;
+				var maxL = yin.offsetHeight - yin_kuan.offsetHeight;
+				var needL2 = ev.clientY - t;
+				if(needL2 < 0) needL2 = 0;
+				if(needL2 > maxL) needL2 = maxL;
+				needT = needT < 1 ? 1 : needT;
+				needT = needT > maxL ? (maxL) : needT;
+				audio.volume = (yin.offsetHeight - 5 - needT) / yin.offsetHeight;
+				yin_kuan.style.top = needT + 'px';
+				yin_heigh.style.height = yin.offsetHeight - 5 - needT + '%'
+			};
+			document.onmouseup = function() {
+				document.onmousemove = document.onmouseup = null;
+			};
+			return false;
+		};
+		loadLine.onclick = function(e) {
+			var ev = e || event;
+			var needX = (ev.clientX - offset(loadLine).left) / this.offsetWidth * 100;
+			line.style.width = needX + '%';
+			audio.currentTime = ((ev.clientX - offset(loadLine).left) / this.offsetWidth) * audio.duration;
+			console.log(line.style.width = needX + '%')
+		};
+
+		function offset(obj) {
+			var needLeft = needTop = 0;
+			while(obj) {
+				needLeft += obj.offsetLeft;
+				needTop += obj.offsetTop;
+				obj = obj.offsetParent;
+			}
+			return {
+				left: needLeft,
+				top: needTop
+			};
+		}
+	</script>
+
+</html>

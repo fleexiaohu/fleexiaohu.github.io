@@ -1,0 +1,84 @@
+<!doctype html> 
+<html> 
+<head> 
+    <meta charset="utf-8"> 
+    <title></title>
+    <style type="text/css">
+*{margin: 0;padding: 0;list-style: none;}
+body{
+  overflow: hidden;
+}
+#boom{
+	width: 640px;height: 400px;position: absolute;left: 0;top: 0;right: 0;bottom: 0;margin: auto;border: 1px solid black;
+}
+#boom > div{
+	position: absolute;width: 100%;height: 100%;
+	transform-style:preserve-3d;
+	position: absolute;left: 0;top:0;
+
+}
+#boom > div > div{float: left;
+
+}
+
+    </style> 
+</head>
+<body>
+<div id='boom'>
+	<!--<div id='boom1'></div>-->
+</div>
+<script type="text/javascript">
+	
+	var arr = ['img/1.jpg','img/2.jpg','img/3.jpg','img/4.jpg'];
+	var imgIndex = 0;
+	function random(min,max){
+		return Number(Math.random()*(max-min))+min;
+	};
+	//从大到小的索引
+	var index = 99999999;
+	bom(10,8);
+	//10 - 横  8 - 纵
+	function bom(l,t){
+		var node = document.createElement('div');
+		node.style.zIndex = index;
+		boom.appendChild(node);
+		index --;
+		if(imgIndex == arr.length)imgIndex = 0;
+		//boom1.innerHTML = '';
+		var x = l,y = t;
+		for(var i = 0;i < y;i++){
+			for(var j = 0;j < x;j++){
+				var oDiv = document.createElement('div');
+				oDiv.style.background ='url('+arr[imgIndex]+')';
+
+				oDiv.style.width = (boom.offsetWidth - 2) / x + 'px';
+				oDiv.style.height = (boom.offsetHeight - 2) / y + 'px';
+				oDiv.style.backgroundPositionX = -j* ((boom.offsetWidth - 2) / x)+'px';
+				oDiv.style.backgroundPositionY = -i* ((boom.offsetHeight - 2) / y)+'px';
+				oDiv.style.transition = random(0.5,2)+'s all ease';
+
+				node.appendChild(oDiv);
+			}
+		}
+
+		//几秒钟之后调用
+		setTimeout(function(){
+			imgIndex++;
+			var allDiv = node.children;
+			for(var i = 0;i < allDiv.length;i++){
+				//随意给的样式
+				allDiv[i].style.transform = 'perspective('+random(600,800)+'px)  rotateX('+random(-120,120)+'deg) rotateY('+random(-120,120)+'deg) translateZ(300px) scale('+random(1.5,2)+') translateX('+random(-30,30)+'px) translateY('+random(-30,30)+'px)';
+				allDiv[i].style.boxShadow = '0 0 '+random(10,25)+'px black';
+				allDiv[i].style.opacity = 0;
+			}
+			bom(l,t)
+			//调用自己
+		},2000);
+		setTimeout(function (){
+			boom.removeChild(node);
+		},4500);
+
+	}
+</script>
+</body>
+</html>

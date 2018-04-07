@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>canvas</title>
+		<style>
+			* {
+				padding: 0;
+				margin: 0;
+				list-style: none;
+			}
+			
+			canvas {
+				background: white;
+			}
+			
+			button {
+				width: 40px;
+				height: 40px;
+				z-index: 10;
+			}
+			
+			#box {
+				width: 120px;
+				height: 120px;
+				position: relative;
+				z-index: 10;
+			}
+			
+			#T {
+				position: absolute;
+				top: 0;
+				left: 50%;
+				margin-left: -20px;
+			}
+			
+			#B {
+				position: absolute;
+				bottom: 0;
+				left: 50%;
+				margin-left: -20px;
+			}
+			
+			#L {
+				position: absolute;
+				left: 0;
+				top: 50%;
+				margin-top: -20px;
+			}
+			
+			#R {
+				position: absolute;
+				right: 0;
+				top: 50%;
+				margin-top: -20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="box"><button id="T">前</button>
+			<button id="B">后</button>
+			<button id="L">左</button>
+			<button id="R">右</button></div>
+		<canvas id="canvas" width=800 height=800>
+			你的浏览器版本太低，请你赶紧升级
+		</canvas>
+	</body>
+	<script>
+		var i = 0;
+		var y = 200;
+		var x = 200;
+		var z = 48;
+		var n = 4;
+		var timer = null;
+		od = canvas.getContext('2d');
+		var img = new Image();
+		img.src = "1.png";
+		img.onload = function() {
+			show(0,1)
+			T.onclick = function() {
+				clearInterval(timer)
+				timer = setInterval(function() {
+					show(0, 1)
+				}, 200)
+			}
+			B.onclick = function(){
+				clearInterval(timer)
+				timer = setInterval(function() {
+					show(3, 4)
+				}, 200)
+			}
+			L.onclick = function(){
+				clearInterval(timer)
+				timer = setInterval(function() {
+					show(1, 2)
+				}, 200)
+			}
+			R.onclick = function(){
+				clearInterval(timer)
+				timer = setInterval(function() {
+					show(2, 3)
+				}, 200)
+			}
+			function show(a, b) {
+				i++;
+				if(i == 4) i = 0	
+				if(b == 1) {
+					y += n
+				} else if(b == 2) {
+					x -= n
+				} else if(b == 3) {
+					x += n
+				} else if(b == 4){
+					y -= n
+				}
+				od.clearRect(0, 0, canvas.width, canvas.height)
+				od.drawImage(
+					img, i * 33, z*a, 33, 48,
+					x, y, 33, 48
+				)
+				
+			}
+		}
+	</script>
+
+</html>
